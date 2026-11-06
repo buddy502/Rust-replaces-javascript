@@ -1,0 +1,42 @@
+:root {
+   --main_background_color: #424242;
+   --main_button_color: radial-gradient(#3097C5 20%, red 50%, #66A1BC 30%);
+}
+
+html {
+   height: 100%;
+}
+
+body {
+   height: 100%;
+   margin: 0;
+   display: block;
+
+   background-color: var(--main_background_color);
+   font-family: Segoe UI, Segoe UI Midlevel, Segoe WP, Arial, sans-serif;
+   font-size: 16px;
+}
+
+#maincontainer {
+   height: 100%;
+   margin: 0 auto;
+   display: flex;
+
+   justify-content: center;
+   align-items: center;
+}
+
+#echobutton {
+   font-size: 2.5rem;
+   font-weight: bold;
+
+   color: transparent;
+   border: None;
+
+   background: var(--main_button_color);
+   -webkit-background-clip: text;
+   background-clip: text;
+} 
+#echobutton:hover {
+   cursor: pointer;
+}
