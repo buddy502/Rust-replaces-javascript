@@ -1,0 +1,11 @@
+Possibly use html functions with inline css to simulate moving objects
+
+NOTE: Rust alone can't perform these tasks without a navigation
+For example, a fetch requires someone to create a form which needs
+   a method and action like "/user"
+Although, this doesn't matter in the users case!
+
+Perform complex algorithms like:
+- Math computation, maybe chess or simple calculator?
+- Web api's like detecting audio, reading files, and clipboard
+- Use storage like indexed_db_futures and react to it, maybe use my SQL skills :)

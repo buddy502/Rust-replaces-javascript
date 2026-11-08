@@ -10,6 +10,17 @@
    </head>
 
    <body>
-      <div id=maincontainer></div>
+      <div id=maincontainer>
+         <!--simple calculator-->
+         <div id=calculatorcontainer>
+            <!--User can only type certain characters, can't use html
+               patterns because of input at submit rather than runtime
+            -->
+            <form method="post" action="/calculator">
+               {{calculator}}
+            </form>
+               {{answer}}
+         </div>
+      </div>
    </body>
 </html>
