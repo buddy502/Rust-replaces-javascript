@@ -13,13 +13,37 @@
       <div id=maincontainer>
          <!--simple calculator-->
          <div id=calculatorcontainer>
-            <!--User can only type certain characters, can't use html
-               patterns because of input at submit rather than runtime
-            -->
             <form method="post" action="/calculator">
-               {{calculator}}
+               <!--User can only type certain characters, can't use html
+                  patterns because of input at submit rather than runtime
+               -->
+               <input type="hidden" name="expr" value="">
+               <div id="calcgrid">
+                  <p>0</p>
+
+                  <button class="calcbuttons" type="submit" name="key" value="7">7</button>
+                  <button class="calcbuttons" type="submit" name="key" value="8">8</button>
+                  <button class="calcbuttons" type="submit" name="key" value="9">9</button>
+                  <button class="calcbuttons" type="submit" name="key" value="/">÷</button>
+
+                  <button class="calcbuttons" type="submit" name="key" value="4">4</button>
+                  <button class="calcbuttons" type="submit" name="key" value="5">5</button>
+                  <button class="calcbuttons" type="submit" name="key" value="6">6</button>
+                  <button class="calcbuttons" type="submit" name="key" value="*">×</button>
+
+                  <button class="calcbuttons" type="submit" name="key" value="1">1</button>
+                  <button class="calcbuttons" type="submit" name="key" value="2">2</button>
+                  <button class="calcbuttons" type="submit" name="key" value="3">3</button>
+                  <button class="calcbuttons" type="submit" name="key" value="-">−</button>
+
+                  <button class="calcbuttons" type="submit" name="key" value="C">C</button>
+                  <button class="calcbuttons" type="submit" name="key" value="0">0</button>
+                  <button class="calcbuttons" type="submit" name="key" value=".">.</button>
+                  <button class="calcbuttons" type="submit" name="key" value="+">+</button>
+
+                  <button class="calcbuttons equals" type="submit" name="key" value="=">=</button>
+               </div>
             </form>
-               {{answer}}
          </div>
       </div>
    </body>

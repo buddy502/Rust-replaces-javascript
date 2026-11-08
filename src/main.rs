@@ -16,8 +16,10 @@ const WEBSITEFILE: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/website/index.ht
 struct CalcS {
     input: String,
 }
+
 // calc is short for calculator
 const CALC_LETTERS: &[u8] = b"+-*/1234567890";
+
 // simple calculator for html
 async fn calculator(calcform: axum::Form<CalcS>) -> Html<String> {
     // Access user response through a string
@@ -29,7 +31,7 @@ async fn calculator(calcform: axum::Form<CalcS>) -> Html<String> {
     // !!!  Can't find a way to make the pattern with regex
     //      You're still able to type anything, just not submit it      
     let calculatorhtml: &str = r#"
-        <input id=calcinput name="input" pattern="[0-9]{6}"></input>
+        <input id=calcinput name="input"></input>
         "#;
 
     // !edit calcform.input to be users input

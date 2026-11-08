@@ -1,6 +1,6 @@
 :root {
    --main_background_color: #424242;
-   --main_button_color: radial-gradient(#3097C5 20%, red 50%, #66A1BC 30%);
+   --main_button_color: radial-gradient(#3097C5 20%, #66A1BC 50%, #3097C5 100%);
 }
 
 html {
@@ -10,18 +10,54 @@ html {
 body {
    height: 100%;
    margin: 0;
-   display: block;
-
    background-color: var(--main_background_color);
-   font-family: Segoe UI, Segoe UI Midlevel, Segoe WP, Arial, sans-serif;
+   font-family: "Segoe UI", "Segoe UI Midlevel", "Segoe WP", Arial, sans-serif;
    font-size: 16px;
 }
 
 #maincontainer {
    height: 100%;
-   margin: 0 auto;
+   width: 100%;
    display: flex;
-
    justify-content: center;
    align-items: center;
+}
+
+#calculatorcontainer {
+   width: min(80%, 400px);
+}
+
+#calcgrid {
+   display: grid;
+   grid-template-columns: repeat(4, 1fr);
+   gap: 4px;
+   padding: 8px;
+   background-color: #828282;
+   border: 3px solid black;
+}
+
+#calcgrid > p {
+   grid-column: 1 / -1;
+   margin: 0;
+   padding: 0.25em 0.5em;
+   font-size: 2rem;
+   text-align: right;
+   border: 2px solid #FFFFFF;
+   overflow: hidden;
+}
+
+.calcbuttons {
+   font-size: clamp(1.5rem, 6vw, 2.5rem);
+   border: 2px solid #323232;
+   background: var(--main_button_color);
+   cursor: pointer;
+   transition: filter 0.16s;
+}
+
+.calcbuttons:hover {
+   filter: brightness(1.25);
+}
+
+.calcbuttons.equals {
+   grid-column: 1 / -1;
 }
