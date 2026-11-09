@@ -17,31 +17,31 @@
                <!--User can only type certain characters, can't use html
                   patterns because of input at submit rather than runtime
                -->
-               <input type="hidden" name="expr" value="">
+               <input type="hidden" name="key" value="{{calcsubmit}}">
                <div id="calcgrid">
-                  <p>0</p>
+                  <p>{{calcsubmit}}</p>
 
-                  <button class="calcbuttons" type="submit" name="key" value="7">7</button>
-                  <button class="calcbuttons" type="submit" name="key" value="8">8</button>
-                  <button class="calcbuttons" type="submit" name="key" value="9">9</button>
-                  <button class="calcbuttons" type="submit" name="key" value="/">÷</button>
+                  <button class="calcbuttons" type="submit" name="input" value="7">7</button>
+                  <button class="calcbuttons" type="submit" name="input" value="8">8</button>
+                  <button class="calcbuttons" type="submit" name="input" value="9">9</button>
+                  <button class="calcbuttons" type="submit" name="input" value="/">÷</button>
 
-                  <button class="calcbuttons" type="submit" name="key" value="4">4</button>
-                  <button class="calcbuttons" type="submit" name="key" value="5">5</button>
-                  <button class="calcbuttons" type="submit" name="key" value="6">6</button>
-                  <button class="calcbuttons" type="submit" name="key" value="*">×</button>
+                  <button class="calcbuttons" type="submit" name="input" value="4">4</button>
+                  <button class="calcbuttons" type="submit" name="input" value="5">5</button>
+                  <button class="calcbuttons" type="submit" name="input" value="6">6</button>
+                  <button class="calcbuttons" type="submit" name="input" value="*">×</button>
 
-                  <button class="calcbuttons" type="submit" name="key" value="1">1</button>
-                  <button class="calcbuttons" type="submit" name="key" value="2">2</button>
-                  <button class="calcbuttons" type="submit" name="key" value="3">3</button>
-                  <button class="calcbuttons" type="submit" name="key" value="-">−</button>
+                  <button class="calcbuttons" type="submit" name="input" value="1">1</button>
+                  <button class="calcbuttons" type="submit" name="input" value="2">2</button>
+                  <button class="calcbuttons" type="submit" name="input" value="3">3</button>
+                  <button class="calcbuttons" type="submit" name="input" value="-">−</button>
 
-                  <button class="calcbuttons" type="submit" name="key" value="C">C</button>
-                  <button class="calcbuttons" type="submit" name="key" value="0">0</button>
-                  <button class="calcbuttons" type="submit" name="key" value=".">.</button>
-                  <button class="calcbuttons" type="submit" name="key" value="+">+</button>
+                  <button class="calcbuttons" type="submit" name="calcaction" value="calcclear">C</button>
+                  <button class="calcbuttons" type="submit" name="input" value="0">0</button>
+                  <button class="calcbuttons" type="submit" name="input" value=".">.</button>
+                  <button class="calcbuttons" type="submit" name="input" value="+">+</button>
 
-                  <button class="calcbuttons equals" type="submit" name="key" value="=">=</button>
+                  <button class="calcbuttons equals" type="submit" name="calcaction" value="calcequal">=</button>
                </div>
             </form>
          </div>
