@@ -1,0 +1,29 @@
+:root {
+   --main_background_color: #313131;
+}
+
+html {
+   height: 100%;
+}
+
+body {
+   height: 100%;
+   margin: 0;
+   background-color: var(--main_background_color);
+   font-family: "Segoe UI", "Segoe UI Midlevel", "Segoe WP", Arial, sans-serif;
+   font-size: 16px;
+} 
+
+#branchcontainer {
+   position: absolute;
+   margin: 0 0 0 5%;
+   top: 15%;
+   width: 50%;
+   height: fit-content;
+
+   border: 2px solid black;
+}
+
+/* Blue folder icons and icons corresponding to respective type*/
+/* Big words lol im smart :) */
+

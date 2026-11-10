@@ -12,15 +12,40 @@ use axum::{
     response::Html
 };
 
-const WEBSITEFILE: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/website/index.html");
+const WEBSITEFILE: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/website/calc.html");
 
 // calc is short for calculator
-#[derive(Deserialize)]
+#[derive(Deserialize, Default)]
 struct CalcS {
+    #[serde(default)]
+    addr: String,
+
     key: String,
     #[serde(default)]
     input: char,
     calcaction: Option<String>,
+}
+
+impl CalcS {
+    fn new(addr: impl Into<String>) -> Self {
+        Self {
+            addr: addr.into(),
+            ..Default::default()
+        }
+    }
+
+    fn calc_router(&self) -> Router {
+        Router::new()
+            .route("/", get(index))
+            .route("/calculator", get(index).post(calculator))
+            .fallback_service(ServeDir::new(concat!(env!("CARGO_MANIFEST_DIR"), "/website")))
+    }
+
+    async fn calc_run(self) {
+        let app = self.calc_router();
+        let listener = tokio::net::TcpListener::bind(&self.addr).await.unwrap();
+        axum::serve(listener, app).await.unwrap();
+    }
 }
 
 // calc is short for calculator
@@ -62,11 +87,9 @@ async fn calculator(Form(mut calcform): axum::Form<CalcS>) -> Html<String> {
     }
 
     let website = tokio::fs::read_to_string(WEBSITEFILE).await.unwrap();
-    return Html(website
-        .replace("{{calcsubmit}}", &calcform.key));
+    return Html(website.replace("{{calcsubmit}}", &calcform.key));
 
-    // curly brace won't go down when indenting and it's really anoying bro
-    }
+}
 
 async fn index() -> Html<String> {
     let website = tokio::fs::read_to_string(WEBSITEFILE).await.unwrap();
@@ -76,11 +99,5 @@ async fn index() -> Html<String> {
 
 #[tokio::main]
 async fn main() {
-    let router = Router::new()
-        .route("/", get(index))
-        .route("/calculator", get(index).post(calculator))
-        .fallback_service(ServeDir::new(concat!(env!("CARGO_MANIFEST_DIR"), "/website")));
-    let tcpconnection = TcpListener::bind("127.0.0.1:8080").await.unwrap();
-
-    axum::serve(tcpconnection, router).await.unwrap();
+    CalcS::new("127.0.0.1:8080").calc_run().await;
 }
