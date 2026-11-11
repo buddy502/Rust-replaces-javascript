@@ -12,24 +12,23 @@ use axum::{
     response::Html
 };
 
-use wasm_bindgen::prelude::*;
+use web_sys::{Document, Window, console, HtmlElement, Element};
 
 const CALCFILE: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/website/calc.html");
-const TREEFILE: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/website/tree.html");
+const CHESSFILE: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/website/chess.html");
 
-#[derive(Default)]
-struct Node {
-    val: Option<String>,
-    next: Option<String>,
-}
-
-#[derive(Default)]
-struct TreeS {
+#[derive(Deserialize, Default)]
+struct ChessS {
+    #[serde(default)]
     addr: String,
-    node: Node,
+
+    folderinput: String,
 }
 
-impl TreeS {
+/*
+    get the folder input event 
+*/
+impl ChessS {
     fn new(addr: impl Into<String>) -> Self {
         Self {
             addr: addr.into(),
@@ -37,29 +36,38 @@ impl TreeS {
         }
     }
 
-    async fn tree_file() -> Html<String> {
-        let website = tokio::fs::read_to_string(TREEFILE).await.unwrap();
+    async fn chess_file() -> Html<String> {
+        let website = tokio::fs::read_to_string(CHESSFILE).await.unwrap();
         Html(website
-            .replace("{{calcsubmit}}", "0"))
+            .replace("{{folders}}", " "))
     }
 
-    fn tree_router(&self) -> Router {
+    fn chess_router(&self) -> Router {
         Router::new()
-            .route("/", get(TreeS::tree_file))
-            .route("/tree", get(TreeS::tree_file).post(calculator))
+            .route("/", get(ChessS::chess_file).post(folder_chess))
             .fallback_service(ServeDir::new(concat!(env!("CARGO_MANIFEST_DIR"), "/website")))
     }
 
-    async fn tree_run(self) {
-        let app = self.tree_router();
+    async fn chess_run(self) {
+        let app = self.chess_router();
         let listener = tokio::net::TcpListener::bind(&self.addr).await.unwrap();
         axum::serve(listener, app).await.unwrap();
     }
+
+    fn create_tile_colors() {
+        // hmm lookin a lot like javascript, idk though
+        let window = web_sys::window().expect("No window available");
+        let doc = window.document().expect("Failed to get document");
+        let tile_element: Element = doc.get_element_by_id("chessboard").ok_or("Element not found")
+            .expect("Element tile error");
+
+        let tile = doc.create_element("div");
+    }
 }
 
-async fn folder_tree(Form(treeform): Form<TreeS>) -> Html<String> {
+async fn folder_chess() -> Html<String> {
     // replace folders with folders
-    Html(TREEFILE.replace("{{folders}}", " "))
+    Html(CHESSFILE.replace("{{folders}}", " "))
 }
 
 
@@ -75,6 +83,7 @@ struct CalcS {
     calcaction: Option<String>,
 }
 
+// wasm wasn't used here
 impl CalcS {
     fn new(addr: impl Into<String>) -> Self {
         Self {
@@ -150,5 +159,5 @@ async fn calculator(Form(mut calcform): axum::Form<CalcS>) -> Html<String> {
 #[tokio::main]
 async fn main() {
     //CalcS::new("127.0.0.1:8080").calc_run().await;
-    TreeS::new("127.0.0.1:8080").tree_run().await;
+    TreeS::new("127.0.0.1:8080").chess_run().await;
 }
