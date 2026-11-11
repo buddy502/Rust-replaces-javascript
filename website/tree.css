@@ -14,16 +14,33 @@ body {
    font-size: 16px;
 } 
 
-#branchcontainer {
-   position: absolute;
+#maincontainer {
+   display: block;
    margin: 0 0 0 5%;
    top: 15%;
    width: 50%;
+   position: absolute;
    height: fit-content;
+}
 
+#branchcontainer {
    border: 2px solid black;
+   position: fixed;
+   width: 30%;
 }
 
 /* Blue folder icons and icons corresponding to respective type*/
 /* Big words lol im smart :) */
 
+#submitfiles {
+   margin: 1rem;
+
+   font-size: 1.5rem;
+   background-color: lightblue;
+   border-radius: 15px;
+   border: 1px solid black;
+   transition: 0.5s;
+}
+#submitfiles:hover {
+   transform: scale(0.95);
+}

@@ -12,7 +12,56 @@ use axum::{
     response::Html
 };
 
-const WEBSITEFILE: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/website/calc.html");
+use wasm_bindgen::prelude::*;
+
+const CALCFILE: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/website/calc.html");
+const TREEFILE: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/website/tree.html");
+
+#[derive(Default)]
+struct Node {
+    val: Option<String>,
+    next: Option<String>,
+}
+
+#[derive(Default)]
+struct TreeS {
+    addr: String,
+    node: Node,
+}
+
+impl TreeS {
+    fn new(addr: impl Into<String>) -> Self {
+        Self {
+            addr: addr.into(),
+            ..Default::default()
+        }
+    }
+
+    async fn tree_file() -> Html<String> {
+        let website = tokio::fs::read_to_string(TREEFILE).await.unwrap();
+        Html(website
+            .replace("{{calcsubmit}}", "0"))
+    }
+
+    fn tree_router(&self) -> Router {
+        Router::new()
+            .route("/", get(TreeS::tree_file))
+            .route("/tree", get(TreeS::tree_file).post(calculator))
+            .fallback_service(ServeDir::new(concat!(env!("CARGO_MANIFEST_DIR"), "/website")))
+    }
+
+    async fn tree_run(self) {
+        let app = self.tree_router();
+        let listener = tokio::net::TcpListener::bind(&self.addr).await.unwrap();
+        axum::serve(listener, app).await.unwrap();
+    }
+}
+
+async fn folder_tree(Form(treeform): Form<TreeS>) -> Html<String> {
+    // replace folders with folders
+    Html(TREEFILE.replace("{{folders}}", " "))
+}
+
 
 // calc is short for calculator
 #[derive(Deserialize, Default)]
@@ -34,10 +83,16 @@ impl CalcS {
         }
     }
 
+    async fn calc_file() -> Html<String> {
+        let website = tokio::fs::read_to_string(CALCFILE).await.unwrap();
+        Html(website
+            .replace("{{calcsubmit}}", "0"))
+    }
+
     fn calc_router(&self) -> Router {
         Router::new()
-            .route("/", get(index))
-            .route("/calculator", get(index).post(calculator))
+            .route("/", get(CalcS::calc_file))
+            .route("/calculator", get(CalcS::calc_file).post(calculator))
             .fallback_service(ServeDir::new(concat!(env!("CARGO_MANIFEST_DIR"), "/website")))
     }
 
@@ -86,18 +141,14 @@ async fn calculator(Form(mut calcform): axum::Form<CalcS>) -> Html<String> {
         }
     }
 
-    let website = tokio::fs::read_to_string(WEBSITEFILE).await.unwrap();
+    let website = tokio::fs::read_to_string(CALCFILE).await.unwrap();
     return Html(website.replace("{{calcsubmit}}", &calcform.key));
 
 }
 
-async fn index() -> Html<String> {
-    let website = tokio::fs::read_to_string(WEBSITEFILE).await.unwrap();
-    Html(website
-        .replace("{{calcsubmit}}", "0"))
-}
 
 #[tokio::main]
 async fn main() {
-    CalcS::new("127.0.0.1:8080").calc_run().await;
+    //CalcS::new("127.0.0.1:8080").calc_run().await;
+    TreeS::new("127.0.0.1:8080").tree_run().await;
 }

@@ -12,11 +12,16 @@
    </head>
 
    <body>
-      <div id=branchcontainer>
-         <ul class="folderdropdown">
-            <!-- temporary, idk how to use wasm yet, I know what I mean tho-->
-            {{folders}}
-         </ul>
+      <div id="maincontainer">
+         <form method="post" action="/tree/{files}">
+            <button id="submitfiles" name="submitbutton">Select Folder</button>
+            <div id=branchcontainer>
+               <ul class="folderdropdown">
+                  <!-- temporary, idk how to use wasm yet, I know what I mean tho-->
+                  {{folders}}
+               </ul>
+            </div>
+         </form>
       </div>
    </body>
 </html>
